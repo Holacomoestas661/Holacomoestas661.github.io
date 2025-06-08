@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Juegos - ¡Encontrá tu Próxima Aventura!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos Generales */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a2e; /* Fondo oscuro tipo gamer */
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #0f3460;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 3px solid #e94560;
+        }
+
+        header h1 {
+            font-family: 'Press Start 2P', cursive;
+            color: #e94560;
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* Layout Principal: Sidebar y Contenido */
+        .main-content {
+            display: flex;
+            flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+            gap: 30px; /* Espacio entre los elementos */
+            margin-top: 30px;
+        }
+
+        .sidebar {
+            flex: 1; /* Ocupa 1 parte del espacio disponible */
+            min-width: 250px; /* Ancho mínimo para el sidebar */
+            background-color: #0e1e40;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            height: fit-content; /* Ajusta la altura al contenido */
+            position: sticky; /* Permite que el sidebar se quede pegado al scroll */
+            top: 20px; /* Distancia desde la parte superior */
+        }
+
+        .sidebar h2 {
+            color: #e94560;
+            font-size: 1.8em;
+            margin-top: 0;
+            border-bottom: 2px solid #e94560;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            margin-bottom: 25px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #c0c0c0;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #0f3460;
+            background-color: #2a2a4a;
+            color: #e0e0e0;
+            appearance: none; /* Eliminar estilos por defecto en select */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .filter-group select option {
+            background-color: #2a2a4a; /* Fondo de las opciones */
+            color: #e0e0e0;
+        }
+
+        .filter-group input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #e94560;
+            cursor: pointer;
+            margin-top: -5px; /* Ajuste para centrar el thumb */
+        }
+
+        .filter-group input::-moz-range-thumb {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #e94560;
+            cursor: pointer;
+        }
+
+        .filter-group input {
+            margin-right: 8px;
+            transform: scale(1.2); /* Agrandar un poco el checkbox */
+        }
+
+        .filter-group .checkbox-item {
+            margin-bottom: 10px;
+        }
+
+        .products-grid {
+            flex: 3; /* Ocupa 3 partes del espacio disponible */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+            gap: 25px;
+        }
+
+        .product-card {
+            background-color: #0e1e40;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+            border-bottom: 2px solid #e94560;
+        }
+
+        .product-card-info {
+            padding: 15px;
+        }
+
+        .product-card h3 {
+            margin-top: 10px;
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 1.4em;
+        }
+
+        .product-card .category,
+        .product-card .platform {
+            font-size: 0.9em;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .product-card .price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4CAF50; /* Color verde para el precio */
+            margin: 10px 0;
+        }
+
+        /* Estilo para que el enlace se vea como un botón */
+        .add-to-cart {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.2s ease;
+            text-decoration: none; /* Quita el subrayado de los enlaces */
+            display: inline-block; /* Permite aplicar padding y width */
+        }
+
+        .add-to-cart:hover {
+            background-color: #c93550;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            background-color: #0f3460;
+            color: #e0e0e0;
+            border-top: 3px solid #e94560;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column; /* Apila el sidebar y los productos en pantallas pequeñas */
+            }
+
+            .sidebar {
+                position: static; /* Quita el sticky en pantallas pequeñas */
+                width: auto;
+                min-width: unset;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎮 ByteBazar 🎮</h1>
+        <p>¡Encontrá tu Próxima Aventura!</p>
+    </header>
+
+    <div class="container main-content">
+        <aside class="sidebar">
+            <h2>Filtros</h2>
+
+            <div class="filter-group">
+                <label for="genre">Género:</label>
+                <select id="genre">
+                    <option value="">Todos los géneros</option>
+                    <option value="accion">Acción</option>
+                    <option value="aventura">Aventura</option>
+                    <option value="rpg">RPG</option>
+                    <option value="deportes">Deportes</option>
+                    <option value="estrategia">Estrategia</option>
+                    <option value="simulacion">Simulación</option>
+                    <option value="mundo_abierto">Mundo Abierto</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="platform">Plataforma:</label>
+                <select id="platform">
+                    <option value="">Todas las plataformas</option>
+                    <option value="pc">PC</option>
+                    <option value="ps5">PlayStation 5</option>
+                    <option value="xbox">Xbox Series X/S</option>
+                    <option value="switch">Nintendo Switch</option>
+                    <option value="ps2">PlayStation 2</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="price-range">Precio Máximo: $<span id="price-value">100</span></label>
+                <input type="range" id="price-range" min="0" max="200" value="100" oninput="document.getElementById('price-value').innerText = this.value">
+            </div>
+
+            <div class="filter-group">
+                <label>Ofertas:</label>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="on-sale">
+                    <label for="on-sale">Solo juegos en oferta</label>
+                </div>
+            </div>
+
+            <button class="add-to-cart" style="width: 100%;">Aplicar Filtros</button>
+        </aside>
+
+        <section class="products-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/404040/FFFFFF?text=Juego+1" alt="Imagen del Juego 1">
+                <div class="product-card-info">
+                    <h3>Aventura Épica</h3>
+                    <p class="category">Género: Aventura, RPG</p>
+                    <p class="platform">Plataforma: PC, PS5</p>
+                    <p class="price">$59.99</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/404040/FFFFFF?text=Juego+2" alt="Imagen del Juego 2">
+                <div class="product-card-info">
+                    <h3>Carreras Furiosas</h3>
+                    <p class="category">Género: Deportes, Carreras</p>
+                    <p class="platform">Plataforma: Xbox, PC</p>
+                    <p class="price">$39.99</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/404040/FFFFFF?text=Juego+3" alt="Imagen del Juego 3">
+                <div class="product-card-info">
+                    <h3>Estrategia Galáctica</h3>
+                    <p class="category">Género: Estrategia</p>
+                    <p class="platform">Plataforma: PC</p>
+                    <p class="price">$49.99</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/404040/FFFFFF?text=Juego+4" alt="Imagen del Juego 4">
+                <div class="product-card-info">
+                    <h3>Simulador de Vida</h3>
+                    <p class="category">Género: Simulación</p>
+                    <p class="platform">Plataforma: PC, Switch</p>
+                    <p class="price">$29.99</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/404040/FFFFFF?text=Juego+5" alt="Imagen del Juego 5">
+                <div class="product-card-info">
+                    <h3>Acción Frenética</h3>
+                    <p class="category">Género: Acción</p>
+                    <p class="platform">Plataforma: PS5, Xbox</p>
+                    <p class="price">$69.99</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+
+             <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/404040/FFFFFF?text=Juego+6" alt="Imagen del Juego 6">
+                <div class="product-card-info">
+                    <h3>RPG Clásico</h3>
+                    <p class="category">Género: RPG, Fantasía</p>
+                    <p class="platform">Plataforma: PC</p>
+                    <p class="price">$45.00</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/606060/FFFFFF?text=GTA+III" alt="Imagen de GTA III">
+                <div class="product-card-info">
+                    <h3>Grand Theft Auto III</h3>
+                    <p class="category">Género: Acción, Mundo Abierto</p>
+                    <p class="platform">Plataforma: PC, PS2, Xbox</p>
+                    <p class="price">$0.00</p>
+                    <a href="https://www.mediafire.com/file/qpsrd4188fyrau3/Gta_3_%2528Silent_Patch%2529_-_TheFenix010.rar/file"
+                       class="add-to-cart" target="_blank" download>Descargar Juego</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200/804040/FFFFFF?text=GTA+Vice+City" alt="Imagen de GTA Vice City">
+                <div class="product-card-info">
+                    <h3>Grand Theft Auto: Vice City</h3>
+                    <p class="category">Género: Acción, Mundo Abierto</p>
+                    <p class="platform">Plataforma: PC, PS2, Xbox</p>
+                    <p class="price">$0.00</p>
+                    <a href="https://www.mediafire.com/file/0gxe0bxhsxn95op/Gta_VC_%2528Silent_Patch%2529_-_TheFenix010.rar/file"
+                       class="add-to-cart" target="_blank" download>Descargar Juego</a>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 ByteBazar. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Este es solo un placeholder.
+        // Para que los filtros funcionen, necesitarías escribir código JavaScript aquí
+        // que escuche los cambios en los select, inputs de rango y checkboxes,
+        // y luego oculte/muestre las tarjetas de producto según los filtros seleccionados.
+
+        // Ejemplo muy básico para el rango de precios:
+        document.getElementById('price-range').addEventListener('input', function() {
+            document.getElementById('price-value').innerText = this.value;
+        });
+
+        // Para un sistema de filtrado completo, necesitarías:
+        // 1. Obtener todos los productos y sus datos (género, plataforma, precio, si está en oferta).
+        // 2. Escuchar eventos de cambio en los inputs de filtro.
+        // 3. Crear una función que, al aplicarse un filtro, recorra todos los productos
+        //    y muestre u oculte aquellos que cumplan con los criterios.
+        // Esto va más allá de un simple código HTML/CSS.
+    </script>
+</body>
+</html>
